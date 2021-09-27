@@ -1,4 +1,4 @@
-const int count = 0;
+static int count = 0;
 
 void next(int* x, int* y, int row)
 {

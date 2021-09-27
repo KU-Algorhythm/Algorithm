@@ -1,0 +1,219 @@
+#include <iostream>
+#include <string>
+using namespace std;
+
+class Node
+{
+public:
+	Node* UL = NULL;
+	Node* UR = NULL;
+	Node* LL = NULL;
+	Node* LR = NULL;
+	char content;
+	Node(char cont)
+	{
+		content = cont;
+	}
+
+};
+
+class QuadGraph
+{
+private:
+
+	int insert(string quadStr, int pos, Node* cur)
+	{
+		char current;
+
+		current = quadStr[pos];
+		pos++;
+		(*cur).UL = new Node(current);
+
+		if(current == 'x')
+		{
+			pos = insert(quadStr, pos, (*cur).UL);
+		}
+
+		current = quadStr[pos];
+		pos++;
+		(*cur).UR = new Node(current);
+
+		if(current == 'x')
+		{
+			pos = insert(quadStr, pos, (*cur).UR);
+		}
+
+		current = quadStr[pos];
+		pos++;
+		(*cur).LL = new Node(current);
+
+		if(current == 'x')
+		{
+			pos = insert(quadStr, pos, (*cur).LL);
+		}
+
+		current = quadStr[pos];
+		pos++;
+		(*cur).LR = new Node(current);
+
+		if(current == 'x')
+		{
+			pos = insert(quadStr, pos, (*cur).LR);
+		}
+
+
+
+		return pos;
+
+	}
+
+	void printGraphPriv(Node cur)
+		{
+			char current;
+			cout << cur.content;
+
+			if(cur.content != 'x')
+				return;
+
+			current = (*(cur.UL)).content;
+
+			if(current == 'x')
+			{
+				printGraphPriv(*(cur.UL));
+			}
+			else
+			{
+				cout << current;
+			}
+
+			current = (*(cur.UR)).content;
+
+			if(current == 'x')
+			{
+				printGraphPriv(*(cur.UR));
+			}
+			else
+			{
+				cout << current;
+			}
+
+			current = (*(cur.LL)).content;
+
+			if(current == 'x')
+			{
+				printGraphPriv(*(cur.LL));
+			}
+			else
+			{
+				cout << current;
+			}
+
+			current = (*(cur.LR)).content;
+
+			if(current == 'x')
+			{
+				printGraphPriv(*(cur.LR));
+			}
+			else
+			{
+				cout << current;
+			}
+
+
+		}
+
+	void printRevPriv(Node cur)
+			{
+				char current;
+				cout << cur.content;
+
+				if(cur.content != 'x')
+					return;
+
+				current = (*(cur.LL)).content;
+
+				if(current == 'x')
+				{
+					printRevPriv(*(cur.LL));
+				}
+				else
+				{
+					cout << current;
+				}
+
+				current = (*(cur.LR)).content;
+
+				if(current == 'x')
+				{
+					printRevPriv(*(cur.LR));
+				}
+				else
+				{
+					cout << current;
+				}
+
+				current = (*(cur.UL)).content;
+
+				if(current == 'x')
+				{
+					printRevPriv(*(cur.UL));
+				}
+				else
+				{
+					cout << current;
+				}
+
+				current = (*(cur.UR)).content;
+
+				if(current == 'x')
+				{
+					printRevPriv(*(cur.UR));
+				}
+				else
+				{
+					cout << current;
+				}
+
+
+			}
+
+
+
+public:
+	Node head = 'x';
+
+	void createNew(string quadStr)
+	{
+		head.content = quadStr[0];
+		if(head.content == 'x')
+		{
+			insert(quadStr, 1, &head);
+		}
+	}
+
+
+	void printGraph()
+	{
+		printGraphPriv(head);
+
+	}
+
+	void printRev()
+	{
+		printRevPriv(head);
+	}
+
+};
+
+
+int main()
+{
+	QuadGraph a = QuadGraph();
+	a.createNew("xxwwwbxwxwbbbwwxxxwwbbbwwwwbb");
+	a.printGraph();
+	cout << '\n';
+	a.printRev();
+
+
+  return 0;
+}

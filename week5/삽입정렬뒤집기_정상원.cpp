@@ -8,7 +8,7 @@ using namespace std;
 
 int main() {
     vector <int> arr = {0, 1, 2, 1, 1};
-    list <int> progresses; //오른쪽에있는 원소들이 왼쪽으로 움직인 횟수, 이 값을 통해서 왼쪽에 있는 원소들은 몇칸을 옮길지 결정
+    list <int> progresses; //오른쪽에있는 원소들이 왼쪽으로 움직인 횟수, 이 값을 통해서 왼쪽에 있는 원소들은 오른쪽으로 몇칸을 옮길지 결정
     list <int> :: iterator it;
     
     int value;

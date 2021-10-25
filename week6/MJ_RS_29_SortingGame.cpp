@@ -2,7 +2,6 @@
 #include <algorithm>
 #include <vector>
 #include <queue>
-#include <map>
 using namespace std;
 
 // 입력받은 배열에 대한 너비우선 탐색 

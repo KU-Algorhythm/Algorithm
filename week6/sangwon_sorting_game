@@ -4,6 +4,7 @@
 distMap에 해당 배열과 distance를 저장하려면, 배열을 string으로 변환하여 사용하면 됩니다. 
 예) 3 9999 1 2를 "3^9999^1^2"를 사용하여 string으로 표현 가능.
 queue는 string을 넣어서 사용해도 되고 아니면 vectory나 array를 넣어도 상관없습니다. 어차피 변환을 해야됩니다. 
+아니면 책에 있는것 처럼 인풋을 1~8안에 있는 숫자로 변환후에 푸는것이 좋을것 같습니다. 
 */
 #include <iostream>
 #include <string>

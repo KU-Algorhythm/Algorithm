@@ -1,0 +1,101 @@
+/*
+문제를 잘못 읽었습니다. 이 솔루션은 인풋 숫자들이(배열안에 숫자들이)  10미만일때만 풀수 있습니다. 
+10 이상인 숫자가 인풋으로 주어질 경우에는 swap을 string대신 vector나 array를 받아서 똑같은 방식으로 푸시고,
+distMap에 해당 배열과 distance를 저장하려면, 배열을 string으로 변환하여 사용하면 됩니다. 
+예) 3 9999 1 2를 "3^9999^1^2"를 사용하여 string으로 표현 가능.
+queue는 string을 넣어서 사용해도 되고 아니면 vectory나 array를 넣어도 상관없습니다. 어차피 변환을 해야됩니다. 
+*/
+#include <iostream>
+#include <string>
+#include <cstdlib>
+#include <map>
+#include <iterator>
+#include <queue>
+
+using namespace std;
+
+string swap(string numb, int start, int end) //input에서 뒤집을수 있는 모든 케이스를 구할때 실제로 뒤집은 결과를 리턴
+{                                            // start-> 뒤집는 시작구간, end -> 뒤집는 마지막 구간
+    while(start < end)
+    {
+        char temp = numb[start];
+        numb[start] = numb[end];
+        numb[end] = temp;
+        start++;
+        end--;
+    }
+    
+    return numb;
+}
+
+bool isOrdered(string numb)      //해당 케이스가 정렬되있는지 체크
+{
+    bool returnVal = true;
+    for(int ind = 0; ind < numb.size() - 1; ind++)
+    {
+        if(stoi(numb.substr(ind, 1)) > stoi(numb.substr(ind + 1, 1)) )
+        {
+            returnVal = false;
+            break;
+        }
+    }
+    
+    return returnVal;
+}
+
+int solution(string startStr)
+{
+    queue<string> q;
+    map<string, int> distMap;                      //해당 케이스가 벌써 access되었는지 체크하고 그 케이스가 몇번 뒤집어야 도달할수 있는지 
+    
+    distMap.insert(pair<string, int>(startStr, 0));
+    q.push(startStr);
+    
+    if(isOrdered(startStr))
+    {
+            return 0;
+    }
+    
+    while(!q.empty())
+    {
+        string current = q.front();
+        q.pop();
+        int curDist = distMap[current];
+        
+        cout << "current: ";
+        cout << current;
+        cout << " dist: ";
+        cout << curDist;
+        cout << "\n";
+        string temp;
+        
+        for(int offset = 1; offset < current.size(); offset++)    //모든 뒤집는 케이스 고려, 뒤집은 케이스를 queue에 넣는다.
+        {
+            for( int startInd = 0; startInd + offset < current.size(); startInd++)
+            {
+                temp = swap(current, startInd, startInd + offset);
+                
+                if(distMap.find(temp) == distMap.end())            //Map에 없으면 그 해당 케이스가 전에 고려되지 않았으므로 정렬된지 체크후, Map과 queue에 넣는다.
+                {
+                    if(isOrdered(temp))
+                    {
+                        return curDist + 1;
+                    }
+                    
+                    distMap.insert(pair<string, int>(temp, curDist + 1));
+                    q.push(temp);
+                }
+            }
+        }
+    }
+    
+    return -1;
+}
+
+int main()
+{
+
+    cout << "answer is : ";
+    cout << solution("12348765");
+    return 0;
+}
